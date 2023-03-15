@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link href="./index.css" rel="stylesheet">
+</head>
+
+<body>
+    <section class="container">
+        <div class="calculator-main">
+
+            <!-- calculator display section -->
+            <p>Scientific Calculator</p>
+            <div class="calculator-display-screen">
+                <input type="text" id="display-input" />
+            </div>
+
+            <!-- calculator degree and fe section -->
+            <div class="calculator-deg-fe">
+                <div id="op-deg" class="grid-item-deg-fe">
+                    <p>DEG</p>
+                </div>
+                <div id="op-fe" class="grid-item-deg-fe">
+                    <p>F-E</p>
+                </div>
+                <div id="op-mc" class="grid-item-muted">
+                    <p>MC</p>
+                </div>
+                <div id="op-mr" class="grid-item-muted">
+                    <p>MR</p>
+                </div>
+                <div id="op-mplus" class="grid-item-deg-fe">
+                    <p>M+</p>
+                </div>
+                <div id="op-mminus" class="grid-item-deg-fe">
+                    <p>M-</p>
+                </div>
+                <div id="op-ms" class="grid-item-deg-fe">
+                    <p>MS</p>
+                </div>
+            </div>
+
+            <!-- calculator trigonometry and functions -->
+            <div class="calculator-tf">
+                <div class="calculator-tf-trigonometry">
+                    <div class="math-icons math-icons-triangle">
+                        <img src="./assests/triangle.png" alt="triangle">
+                    </div>
+                    <p>Trigonometry</p>
+                    <div class="math-icons math-icons-downarrow">
+                        <img src="./assests/down-arrow.png" alt="down">
+                    </div>
+
+                    <div class="calculator-tf-modal-1 none">
+                        <div class="grid-item">
+                            <p>2<sup>nd</sup></p>
+                        </div>
+                        <div class="grid-item">
+                            <p>sin</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>cos</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>tan</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>hyp</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>sec</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>csc</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>cot</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="calculator-tf-trigonometry">
+                    <div class="math-icons">
+                        <img src="./assests/function-f.png" alt="triangle">
+                    </div>
+                    <p>Functions</p>
+                    <div class="math-icons math-icons-downarrow">
+                        <img src="./assests/down-arrow.png" alt="down">
+                    </div>
+
+                    <div class="calculator-tf-modal-2 none">
+
+                        <div class="grid-item">
+                            <p>|x|</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>⎣x⎦</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>⎡x⎤</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>rand</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>dms</p>
+                        </div>
+                        <div class="grid-item">
+                            <p>deg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- calculator all other functions -->
+            <div class="calculator-all-fn">
+                <!-- calculator row 1 -->
+                <div id="op-second" class="grid-item">
+                    <p>2<sup>nd</sup> </p>
+                </div>
+                <div id="op-pie" class="grid-item">
+                    <p>&#960;</p>
+                </div>
+                <div id="op-e" class="grid-item">
+                    <p>e</p>
+                </div>
+                <div id="op-clear" onclick="handleCurrentInput('C')" class="grid-item">
+                    <p>C</p>
+                </div>
+                <div onclick="handleCurrentInput('backspace')" id="op-back" class="grid-item">
+                    <div class="math-icons">
+                        <img src="./assests/remove-icon.png" alt="back">
+                    </div>
+                </div>
+                <!-- calculator row 2 -->
+                <div id="op-x-square" class="grid-item">
+                    <p>x<sup>2</sup>
+                    </p>
+                </div>
+                <div id="op-onebyx" class="grid-item">
+                    <p>1/x</p>
+                </div>
+                <div id="op-abs" class="grid-item">
+                    <p>|x|</p>
+                </div>
+                <div id="op-exp" class="grid-item">
+                    <p>exp</p>
+                </div>
+                <div id="op-mod" onclick="handleCurrentInput('%')" class="grid-item">
+                    <p>mod</p>
+                </div>
+                <!-- calculator row 3 -->
+                <div id="op-two-squareroot-x" class="grid-item">
+                    <p>2&radic;x</p>
+                </div>
+                <div onclick="handleCurrentInput('lp')" id="op-left-bracket" class="grid-item">
+                    <p>(</p>
+                </div>
+                <div onclick="handleCurrentInput('rp')" id="op-right-bracket" class="grid-item">
+                    <p>)</p>
+                </div>
+                <div id="id-n-!" class="grid-item">
+                    <p>n!</p>
+                </div>
+                <div onclick="handleCurrentInput('/')" id="op-divide" class="grid-item">
+                    <p>&divide;</p>
+                </div>
+                <!-- calculator row 4 -->
+                <div id="op-x-y" class="grid-item">
+                    <p>x<sup>y</sup></p>
+                </div>
+                <div onclick="handleCurrentInput('7')" id="op-seven" class="grid-item grid-item-number">
+                    <p>7</p>
+                </div>
+                <div onclick="handleCurrentInput('8')" id="op-eight" class="grid-item grid-item-number">
+                    <p>8</p>
+                </div>
+                <div onclick="handleCurrentInput('9')" id="op-nine" class="grid-item grid-item-number">
+                    <p>9</p>
+                </div>
+                <div onclick="handleCurrentInput('*')" id="op-multiply" class="grid-item ">
+                    <p>&times;</p>
+                </div>
+                <!-- calculator row 5 -->
+                <div id="op-ten-x" class="grid-item">
+                    <p>10<sup>x</sup></p>
+                </div>
+                <div onclick="handleCurrentInput('4')" id="op-four" class="grid-item grid-item-number">
+                    <p>4</p>
+                </div>
+                <div onclick="handleCurrentInput('5')" id="op-five" class="grid-item grid-item-number">
+                    <p>5</p>
+                </div>
+                <div onclick="handleCurrentInput('6')" id="op-six" class="grid-item grid-item-number">
+                    <p>6</p>
+                </div>
+                <div onclick="handleCurrentInput('-')" id="op-minus" class="grid-item">
+                    <p>&minus;</p>
+                </div>
+                <!-- calculator row 6 -->
+                <div onclick="handleCurrentInput('log')" id="op-log" class="grid-item">
+                    <p>log</p>
+                </div>
+                <div onclick="handleCurrentInput('1')" id="op-one" class="grid-item grid-item-number">
+                    <p>1</p>
+                </div>
+                <div onclick="handleCurrentInput('2')" id="op-two" class="grid-item grid-item-number">
+                    <p>2</p>
+                </div>
+                <div onclick="handleCurrentInput('3')" id="op-three" class="grid-item grid-item-number">
+                    <p>3</p>
+                </div>
+                <div onclick="handleCurrentInput('+')" id="op-plus" class="grid-item">
+                    <p>&plus;</p>
+                </div>
+                <!-- calculator row 7 -->
+                <div onclick="handleCurrentInput('ln')" id="op-logn" class="grid-item">
+                    <p>ln</p>
+                </div>
+                <div onclick="handleCurrentInput('+/-')" id="op-plus-minus" class="grid-item grid-item-white">
+                    <p>+/-</p>
+                </div>
+                <div onclick="handleCurrentInput('0')" id="op-zero" class="grid-item grid-item-number">
+                    <p>0</p>
+                </div>
+                <div onclick="handleCurrentInput('.')" id="op-dot" class="grid-item grid-item-white">
+                    <p>.</p>
+                </div>
+                <div onclick="handleCurrentInput('=')" id="op-equal" class="grid-item-blue">
+                    <p>=</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="./src/index.js" type="text/javascript"></script>
+    <script src="./src/EvaluateExpression.js" type="text/javascript"></script>
+    <script src="./src/checkBalanceParen.js" type="text/javascript"></script>
+</body>
+
+</html>
