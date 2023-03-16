@@ -39,7 +39,24 @@ function calculate(s) {
     let stackSignPair = [];
     let sign = '+';
     for (let i = 0; i < s.length; i++) {
-        if (!isNaN(Number(s[i]))) {
+        if (s[i].match(/[a-z]/gi)) {
+            let currentFunction = "";
+            while (s[i] !== '(') {
+                currentFunction += s[i]
+                i++;
+            }
+
+            i++;
+            let currentNumber = "";
+            while (s[i] !== ')') {
+                currentNumber += s[i]
+                i++;
+            }
+
+            currentNumber = window[currentFunction](Number(currentNumber));
+            cal(stack, currentNumber, sign);
+        }
+        else if (!isNaN(Number(s[i]))) {
             let currentNumber = "";
             while (!isNaN(Number(s[i])) || s[i] === '.') {
                 currentNumber += s[i]

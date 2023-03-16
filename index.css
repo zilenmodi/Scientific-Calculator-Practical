@@ -183,7 +183,7 @@ input::-webkit-inner-spin-button {
 
 .calculator-tf-modal-1 {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
     background-color: #fff;
     padding: 6px;
@@ -210,4 +210,9 @@ input::-webkit-inner-spin-button {
 
 .none {
     display: none;
+}
+
+.raiseTo-item {
+    display: flex;
+    flex-wrap: nowrap;
 }

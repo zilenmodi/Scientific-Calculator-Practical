@@ -21,7 +21,7 @@
             <!-- calculator display section -->
             <p>Scientific Calculator</p>
             <div class="calculator-display-screen">
-                <input type="text" id="display-input" />
+                <input type="text" id="display-input" placeholder="0" />
             </div>
 
             <!-- calculator degree and fe section -->
@@ -61,29 +61,23 @@
                     </div>
 
                     <div class="calculator-tf-modal-1 none">
-                        <div class="grid-item">
-                            <p>2<sup>nd</sup></p>
-                        </div>
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('sin')" class="grid-item">
                             <p>sin</p>
                         </div>
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('cos')" class="grid-item">
                             <p>cos</p>
                         </div>
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('tan')" class="grid-item">
                             <p>tan</p>
                         </div>
-                        <div class="grid-item">
-                            <p>hyp</p>
+                        <div onclick="handleCurrentInput('sin-1')" class="grid-item">
+                            <p class="raiseTo-item">sin<sup>-1</sup></p>
                         </div>
-                        <div class="grid-item">
-                            <p>sec</p>
+                        <div onclick="handleCurrentInput('cos-1')" class="grid-item">
+                            <p class="raiseTo-item">cos<sup>-1</sup></p>
                         </div>
-                        <div class="grid-item">
-                            <p>csc</p>
-                        </div>
-                        <div class="grid-item">
-                            <p>cot</p>
+                        <div onclick="handleCurrentInput('tan-1')" class="grid-item">
+                            <p class="raiseTo-item">tan<sup>-1</sup></p>
                         </div>
                     </div>
                 </div>
@@ -128,10 +122,10 @@
                 <div id="op-second" class="grid-item">
                     <p>2<sup>nd</sup> </p>
                 </div>
-                <div id="op-pie" class="grid-item">
-                    <p>&#960;</p>
+                <div onclick="handleCurrentInput('π')" id="op-pie" class="grid-item">
+                    <p>π</p>
                 </div>
-                <div id="op-e" class="grid-item">
+                <div onclick="handleCurrentInput('e')" id="op-e" class="grid-item">
                     <p>e</p>
                 </div>
                 <div id="op-clear" onclick="handleCurrentInput('C')" class="grid-item">
@@ -143,14 +137,14 @@
                     </div>
                 </div>
                 <!-- calculator row 2 -->
-                <div id="op-x-square" class="grid-item">
+                <div onclick="handleCurrentInput('x-raise-2')" id="op-x-square" class="grid-item">
                     <p>x<sup>2</sup>
                     </p>
                 </div>
-                <div id="op-onebyx" class="grid-item">
+                <div onclick="handleCurrentInput('one-by-x')" id="op-onebyx" class="grid-item">
                     <p>1/x</p>
                 </div>
-                <div id="op-abs" class="grid-item">
+                <div onclick="handleCurrentInput('abs-x')" id="op-abs" class="grid-item">
                     <p>|x|</p>
                 </div>
                 <div id="op-exp" class="grid-item">
@@ -169,14 +163,14 @@
                 <div onclick="handleCurrentInput('rp')" id="op-right-bracket" class="grid-item">
                     <p>)</p>
                 </div>
-                <div id="id-n-!" class="grid-item">
+                <div onclick="handleCurrentInput('!')" id="id-n-!" class="grid-item">
                     <p>n!</p>
                 </div>
                 <div onclick="handleCurrentInput('/')" id="op-divide" class="grid-item">
                     <p>&divide;</p>
                 </div>
                 <!-- calculator row 4 -->
-                <div id="op-x-y" class="grid-item">
+                <div onclick="handleCurrentInput('x-raise-y')" id="op-x-y" class="grid-item">
                     <p>x<sup>y</sup></p>
                 </div>
                 <div onclick="handleCurrentInput('7')" id="op-seven" class="grid-item grid-item-number">
@@ -192,7 +186,7 @@
                     <p>&times;</p>
                 </div>
                 <!-- calculator row 5 -->
-                <div id="op-ten-x" class="grid-item">
+                <div onclick="handleCurrentInput('10-raise-x')" id="op-ten-x" class="grid-item">
                     <p>10<sup>x</sup></p>
                 </div>
                 <div onclick="handleCurrentInput('4')" id="op-four" class="grid-item grid-item-number">
