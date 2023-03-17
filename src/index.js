@@ -1,4 +1,8 @@
-let evaluateInputString = "";
+let toggleButtonSecondOn = false;
+let isDegOn = true;
+let memoryValue = 0;
+let lastIsOperator = false;
+let isDotOn = false;
 
 const dropdownFunctions = document.querySelectorAll(".calculator-tf-trigonometry")
 
@@ -11,13 +15,13 @@ const dropdownModalTriangle = document.querySelector(".calculator-tf-modal-1")
 
 const dropdownModalFunction = document.querySelector(".calculator-tf-modal-2")
 
-dropdownTriangle.addEventListener("click", () => {
+dropdownTriangle.addEventListener("click", (e) => {
     dropdownModalTriangle.classList.contains('none') ? dropdownModalTriangle.classList.remove('none') : dropdownModalTriangle.classList.add('none')
 
     if (!dropdownModalFunction.classList.contains('none')) {
         dropdownModalFunction.classList.add('none')
     }
-})
+}, true)
 
 
 dropdownFunction.addEventListener("click", () => {
@@ -27,6 +31,79 @@ dropdownFunction.addEventListener("click", () => {
         dropdownModalTriangle.classList.add('none')
     }
 })
+
+const degButton = document.querySelector("#op-deg");
+degButton.addEventListener("click", () => {
+    isDegOn = !isDegOn;
+    console.log(isDegOn);
+    if (isDegOn) {
+        degButton.style.background = "#e9ecef"
+        degButton.style.color = "#000"
+        degButton.innerHTML = "<p>DEG</p>"
+    }
+    else {
+        degButton.style.background = "#92c2e8"
+        degButton.style.color = "#f5f5f6"
+        degButton.innerHTML = "<p>RAD</p>"
+    }
+})
+
+const toggleButtonSecond = document.querySelector("#op-toggle-second");
+toggleButtonSecond.addEventListener("click", () => {
+    toggleButtonSecondOn = !toggleButtonSecondOn;
+    let toggleButtonsOfSecond = document.querySelectorAll('.toggle-item')
+    if (toggleButtonSecondOn) {
+        toggleButtonSecond.style.background = "#92c2e8"
+        toggleButtonSecond.style.color = "#f5f5f6"
+        toggleButtonsOfSecond[0].innerHTML = "<p>x<sup>3</sup></p>";
+        toggleButtonsOfSecond[0].setAttribute('onClick', "handleCurrentInput('x-raise-3')")
+
+        toggleButtonsOfSecond[1].innerHTML = "<p>3&radic;x</p>";
+        toggleButtonsOfSecond[1].setAttribute('onClick', "handleCurrentInput('3-root-x')")
+
+        toggleButtonsOfSecond[2].innerHTML = "<p>y&radic;x</p>";
+        toggleButtonsOfSecond[2].setAttribute('onClick', "handleCurrentInput('y-root-x')")
+
+        toggleButtonsOfSecond[3].innerHTML = "<p>2<sup>x</sup></p>";
+        toggleButtonsOfSecond[3].setAttribute('onClick', "handleCurrentInput('2-raise-x')")
+
+        toggleButtonsOfSecond[4].innerHTML = "<p>log<sub>2</sub>x</p>";
+        toggleButtonsOfSecond[4].setAttribute('onClick', "handleCurrentInput('log-x-base2')")
+
+        toggleButtonsOfSecond[5].innerHTML = "<p>e<sup>x</sup></p>";
+        toggleButtonsOfSecond[5].setAttribute('onClick', "handleCurrentInput('e-raise-x')")
+    }
+    else {
+        toggleButtonSecond.style.background = "#f5f5f6"
+        toggleButtonSecond.style.color = "#454545"
+        toggleButtonsOfSecond[0].innerHTML = "<p>x<sup>2</sup></p>";
+        toggleButtonsOfSecond[0].setAttribute('onClick', "handleCurrentInput('x-raise-2')")
+
+        toggleButtonsOfSecond[1].innerHTML = "<p>2&radic;x</p>";
+        toggleButtonsOfSecond[1].setAttribute('onClick', "handleCurrentInput('2-root-x')")
+
+        toggleButtonsOfSecond[2].innerHTML = "<p>x<sup>y</sup></p>";
+        toggleButtonsOfSecond[2].setAttribute('onClick', "handleCurrentInput('x-raise-y')")
+
+        toggleButtonsOfSecond[3].innerHTML = "<p>10<sup>x</sup></p>";
+        toggleButtonsOfSecond[3].setAttribute('onClick', "handleCurrentInput('10-raise-x')")
+
+        toggleButtonsOfSecond[4].innerHTML = "<p>log</p>";
+        toggleButtonsOfSecond[4].setAttribute('onClick', "handleCurrentInput('log')")
+
+        toggleButtonsOfSecond[5].innerHTML = "<p>ln</p>";
+        toggleButtonsOfSecond[5].setAttribute('onClick', "handleCurrentInput('ln')")
+    }
+
+})
+
+const errorMessageHandler = document.querySelector("#error-message-handler");
+function handleError(message) {
+    errorMessageHandler.innerHTML = `<p class='error-msg'>${message}</p>`
+    setTimeout(() => {
+        errorMessageHandler.innerHTML = ""
+    }, 1000)
+}
 
 function notInRange(value) {
     if (value >= '1' && value <= '9') {
@@ -70,7 +147,6 @@ function handlePlusAndMinus(inputValue) {
             }
         }
     }
-    evaluateInputString = displayInput.value;
 }
 
 function handleDisplayOutput(value) {
@@ -111,11 +187,6 @@ function handleDisplayOutput(value) {
 }
 
 function handleDefaultCaseOfOperator(inputValue) {
-    // if (inputValue.match(/[a-df-z]/gi)) {
-    //     console.log("Invalid data");
-    //     return;
-    // }
-
     let currentDisplayLength = displayInput.value.length;
     let condition1 = (!currentDisplayLength && inputValue.match(/[+|*|\/|%]/g));
     let condition2 = currentDisplayLength === 1 && displayInput.value[0] === '-' && inputValue.match(/[.|+|*|\/|\-|%]/g)
@@ -147,15 +218,21 @@ function handleDefaultCaseOfOperator(inputValue) {
             }
             isDotOn = true;
         }
-        else {
+        else if (inputValue.match(/[+|*|\-|\/|%]/g)) {
+            lastIsOperator = true;
+            isDotOn = false;
             displayInput.value += inputValue;
             document.querySelector("#display-input").focus()
-            if (inputValue.match(/[+|*|\-|\/|%]/g)) {
-                lastIsOperator = true;
-                isDotOn = false;
+        }
+        else {
+            lastIsOperator = false;
+            if ((/[πe)!]/.test(displayInput.value.slice(-1)))) {
+                displayInput.value += "*" + inputValue;
+                document.querySelector("#display-input").focus()
             }
             else {
-                lastIsOperator = false;
+                displayInput.value += inputValue;
+                document.querySelector("#display-input").focus()
             }
         }
     }
@@ -176,28 +253,13 @@ function handleBackSpace() {
 }
 
 function handleTrigonometryNormal(sign) {
-    displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ?
+    displayInput.value += (/[!\d)IE]/.test(displayInput.value.slice(-1))) ?
         "*" + sign + "(" : sign + "(";
 }
 
 function handleSingleValueInput(sign) {
-    displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ?
-        "*" + sign : sign;
+    displayInput.value += (/[eπ\d)IE]/.test(displayInput.value.slice(-1))) ? "*" + sign : sign;
 }
-
-// function handleAbsolute(value) {
-//     if ((/[\d)IE]/.test(displayInput.value.slice(-1)))) {
-//         let splitArr = displayInput.value.split(/[+*\/]/);
-//         let lastOprandDigit = splitArr.slice(-1)[0].length;
-//         let cutBeforeInputString = displayInput.value.slice(0, (lastOprandDigit * -1));
-//         displayInput.value = cutBeforeInputString + "|" + splitArr.slice(-1)[0] + "|";
-
-//     }
-//     else {
-//         console.log("Invalid operation!!!");
-//     }
-// }
-
 
 function handleXPower(power) {
     if ((/[e\d)IE]/.test(displayInput.value.slice(-1)))) {
@@ -219,43 +281,76 @@ function handleXPower(power) {
         }
     }
     else {
-        console.log("Invalid operation!!!");
+        handleError("Invalid operation!!!")
     }
 }
 
 function handleXRoot(power) {
+    lastIsOperator = true;
     displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ? "*" : "";
     if (power === 2) {
         displayInput.value += "2√";
     }
+    else if (power === 3) {
+        displayInput.value += "3√";
+    }
+}
+
+function handleMemoryStore(value) {
+    memoryValue = value;
+    if (memoryValue !== 0) {
+        document.querySelector("#memory-store").style.display = "block"
+        document.querySelector("#op-mc").classList.remove('grid-item-muted')
+        document.querySelector("#op-mc").classList.add('grid-item-deg-fe')
+
+        document.querySelector("#op-mr").classList.remove('grid-item-muted')
+        document.querySelector("#op-mr").classList.add('grid-item-deg-fe')
+
+        document.querySelector("#memory-store").style.display = "block"
+        document.querySelector("#memory-value").textContent = memoryValue
+    }
+    else {
+        document.querySelector("#op-mc").classList.add('grid-item-muted')
+        document.querySelector("#op-mc").classList.remove('grid-item-deg-fe')
+
+        document.querySelector("#op-mr").classList.add('grid-item-muted')
+        document.querySelector("#op-mr").classList.remove('grid-item-deg-fe')
+
+        document.querySelector("#memory-store").style.display = "none"
+        document.querySelector("#memory-value").textContent = memoryValue
+    }
 }
 
 function getSin(number) {
-    return Math.sin(Math.PI / 180 * number)
+    return isDegOn ? Math.sin(Math.PI / 180 * number) : Math.sin(number);
 }
 
 function getCos(number) {
-    return Math.cos(Math.PI / 180 * number)
+    return isDegOn ? Math.cos(Math.PI / 180 * number) : Math.cos(number);
 }
 
 function getTan(number) {
-    return Math.tan(Math.PI / 180 * number)
+    return isDegOn ? Math.tan(Math.PI / 180 * number) : Math.tan(number);
 }
 
 function getSinIn(number) {
-    return 180 / Math.PI * Math.asin(number)
+    return isDegOn ? 180 / Math.PI * Math.asin(number) : Math.asin(number)
 }
 
 function getCosIn(number) {
-    return 180 / Math.PI * Math.acos(number)
+    return isDegOn ? 180 / Math.PI * Math.acos(number) : Math.acos(number)
 }
 
 function getTanIn(number) {
-    return 180 / Math.PI * Math.atan(number)
+    return isDegOn ? 180 / Math.PI * Math.atan(number) : Math.atan(number)
 }
 
 function getLog(number) {
     return Math.log10(number)
+}
+
+function getLog2(number) {
+    return Math.log2(number)
 }
 
 function getLn(number) {
@@ -263,14 +358,28 @@ function getLn(number) {
 }
 
 function factorial(number) {
-    if (number === 0) {
-        return 1;
+    try {
+        if (number === 0) {
+            return 1;
+        }
+        return number * factorial(number - 1);
     }
-    return number * factorial(number - 1);
+    catch {
+        return;
+    }
 }
 
 function getRoot(root, value) {
-    return Math.pow(value, (1 / root));
+    return Math.pow(Math.abs(value), 1 / root);
+}
+
+function handleFactorial() {
+    if ((/[\d]/.test(displayInput.value.slice(-1)))) {
+        displayInput.value += "!";
+    }
+    else {
+        handleError("Invalid Input!!!")
+    }
 }
 
 function getStringInDigits() {
@@ -284,7 +393,7 @@ function getStringInDigits() {
             callFunction: "3.14159265359"
         },
         {
-            regPattern: /(\d+\.?\d*)\√(\d+\.?\d*)/g,
+            regPattern: /(\d+\.?\d*)\√(\-?\d+\.?\d*)/g,
             callFunction: "getRoot($1, $2)"
         },
         {
@@ -320,6 +429,10 @@ function getStringInDigits() {
             callFunction: "getLog($1)"
         },
         {
+            regPattern: /log2\((\d+\.?\d*)\)/g,
+            callFunction: "getLog2($1)"
+        },
+        {
             regPattern: /ln\((\d+\.?\d*)\)/g,
             callFunction: "getLn($1)"
         },
@@ -335,14 +448,51 @@ function getStringInDigits() {
     return convertedString;
 }
 
-let lastIsOperator = false;
-let isDotOn = false;
 
 function handleCurrentInput(inputValue) {
     document.querySelector("#display-input").focus()
     switch (inputValue) {
+        case 'm-s':
+            handleCurrentInput("=");
+            displayInput.value = Number(displayInput.value);
+            handleMemoryStore(Number(displayInput.value));
+            break;
+
+        case 'm-plus':
+            handleCurrentInput("=");
+            displayInput.value = Number(displayInput.value);
+            handleMemoryStore(Number(memoryValue) + Number(displayInput.value));
+            break;
+
+        case 'm-minus':
+            handleCurrentInput("=");
+            displayInput.value = Number(displayInput.value);
+            handleMemoryStore(Number(memoryValue) - Number(displayInput.value));
+            break;
+
+        case 'm-recall':
+            displayInput.value = memoryValue
+            break;
+
+        case 'm-clear':
+            handleMemoryStore(0);
+            break;
+
+        case 'f-e':
+            handleCurrentInput("=");
+            displayInput.value = Number(displayInput.value).toExponential(2)
+            break;
+
         case '2-root-x':
             handleXRoot(2);
+            break;
+
+        case '3-root-x':
+            handleXRoot(3);
+            break;
+
+        case 'y-root-x':
+            displayInput.value += '√'
             break;
 
         case 'e':
@@ -354,12 +504,33 @@ function handleCurrentInput(inputValue) {
             handleXPower("e");
             break;
 
+        case 'e-raise-x':
+            handleSingleValueInput("e");
+            handleXPower("e");
+            break;
+
         case 'π':
             handleSingleValueInput(inputValue);
             break;
 
+        case 'rnd':
+            let rndValue = Math.random();
+            handleSingleValueInput(rndValue.toFixed(8).toString());
+            break;
+
         case 'abs-x':
-            handleAbsolute(inputValue);
+            handleCurrentInput("=");
+            displayInput.value = Math.abs(Number(displayInput.value))
+            break;
+
+        case 'floor-x':
+            handleCurrentInput("=");
+            displayInput.value = Math.floor(Number(displayInput.value))
+            break;
+
+        case 'ceil-x':
+            handleCurrentInput("=");
+            displayInput.value = Math.ceil(Number(displayInput.value))
             break;
 
         case 'one-by-x':
@@ -367,12 +538,16 @@ function handleCurrentInput(inputValue) {
                 displayInput.value += "1/";
             }
             else {
-                console.log("Invalid input!!!")
+                handleError("Invalid Input!!!")
             }
             break;
 
         case 'log':
             handleTrigonometryNormal(inputValue);
+            break;
+
+        case 'log-x-base2':
+            handleTrigonometryNormal("log2");
             break;
 
         case 'ln':
@@ -408,11 +583,15 @@ function handleCurrentInput(inputValue) {
             break;
 
         case '!':
-            displayInput.value += "!";
+            handleFactorial();
             break;
 
         case 'x-raise-2':
             handleXPower(2);
+            break;
+
+        case 'x-raise-3':
+            handleXPower(3);
             break;
 
         case 'x-raise-y':
@@ -424,41 +603,52 @@ function handleCurrentInput(inputValue) {
             handleXPower();
             break;
 
+        case '2-raise-x':
+            displayInput.value += "2";
+            handleXPower();
+            break;
+
         case '+/-':
             handlePlusAndMinus(inputValue)
             break;
 
         case 'C':
             displayInput.value = "";
-            isDotOn = false;
             minusOn = 1;
+            toggleButtonSecondOn = false;
+            isDegOn = true;
+            lastIsOperator = false;
+            isDotOn = false;
             document.querySelector("#display-input").focus()
             break
 
         case '=':
             if (areBracketsBalanced(displayInput.value)) {
                 let valueInExp = getStringInDigits();
-                console.log(valueInExp);
+                // console.log(valueInExp);
                 const newValue = calculate(valueInExp);
-
                 if (newValue === undefined || isNaN(newValue)) {
-                    handleCurrentInput('C')
-                    console.log("Invalid Input");
+                    handleError("Invalid Input!!!")
                 }
                 else {
-                    displayInput.value = handleDisplayOutput(newValue)
+                    if (newValue === 0) {
+                        displayInput.value = "";
+                    }
+                    else {
+                        displayInput.value = handleDisplayOutput(newValue)
+                    }
                     document.querySelector("#display-input").focus()
                     minusOn = 1;
                 }
             }
             else {
-                handleCurrentInput('C')
-                console.log("Invalid Parentheses");
+                // handleCurrentInput('C')
+                handleError("Invalid Parentheses!!!")
             }
             break
 
         case 'lp':
-            displayInput.value += '('
+            handleSingleValueInput('(');
             break
 
         case 'rp':
@@ -471,8 +661,12 @@ function handleCurrentInput(inputValue) {
     }
 }
 
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
+document.addEventListener("keypress", function (event) {
+    if (event.key.match(/[a-z]/gi)) {
+        event.preventDefault();
+        handleError("Invalid Input!!!")
+    }
+    else if (event.key === "Enter") {
         event.preventDefault();
         handleCurrentInput("=")
     }
@@ -487,3 +681,7 @@ document.addEventListener("keydown", function (event) {
 });
 
 
+/*
+We required your digital signature for our college report. As you may know, a digital signature is required for presenting the report to college, and We would be grateful if you could provide us with one.
+
+*/

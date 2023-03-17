@@ -24,29 +24,36 @@
                 <input type="text" id="display-input" placeholder="0" />
             </div>
 
+            <div id="error-message-handler">
+            </div>
+
             <!-- calculator degree and fe section -->
             <div class="calculator-deg-fe">
                 <div id="op-deg" class="grid-item-deg-fe">
                     <p>DEG</p>
                 </div>
-                <div id="op-fe" class="grid-item-deg-fe">
+                <div onclick="handleCurrentInput('f-e')" id="op-fe" class="grid-item-deg-fe">
                     <p>F-E</p>
                 </div>
-                <div id="op-mc" class="grid-item-muted">
+                <div onclick="handleCurrentInput('m-clear')" id="op-mc" class="grid-item-muted">
                     <p>MC</p>
                 </div>
-                <div id="op-mr" class="grid-item-muted">
+                <div onclick="handleCurrentInput('m-recall')" id="op-mr" class="grid-item-muted">
                     <p>MR</p>
                 </div>
-                <div id="op-mplus" class="grid-item-deg-fe">
+                <div onclick="handleCurrentInput('m-plus')" id="op-mplus" class="grid-item-deg-fe">
                     <p>M+</p>
                 </div>
-                <div id="op-mminus" class="grid-item-deg-fe">
+                <div onclick="handleCurrentInput('m-minus')" id="op-mminus" class="grid-item-deg-fe">
                     <p>M-</p>
                 </div>
-                <div id="op-ms" class="grid-item-deg-fe">
+                <div onclick="handleCurrentInput('m-s')" id="op-ms" class="grid-item-deg-fe">
                     <p>MS</p>
                 </div>
+            </div>
+
+            <div id="memory-store">
+                <p>Memory: <span id="memory-value"></span></p>
             </div>
 
             <!-- calculator trigonometry and functions -->
@@ -61,22 +68,22 @@
                     </div>
 
                     <div class="calculator-tf-modal-1 none">
-                        <div onclick="handleCurrentInput('sin')" class="grid-item">
+                        <div onclick="handleCurrentInput('sin')" class="grid-item-tf">
                             <p>sin</p>
                         </div>
-                        <div onclick="handleCurrentInput('cos')" class="grid-item">
+                        <div onclick="handleCurrentInput('cos')" class="grid-item-tf">
                             <p>cos</p>
                         </div>
-                        <div onclick="handleCurrentInput('tan')" class="grid-item">
+                        <div onclick="handleCurrentInput('tan')" class="grid-item-tf">
                             <p>tan</p>
                         </div>
-                        <div onclick="handleCurrentInput('sin-1')" class="grid-item">
+                        <div onclick="handleCurrentInput('sin-1')" class="grid-item-tf">
                             <p class="raiseTo-item">sin<sup>-1</sup></p>
                         </div>
-                        <div onclick="handleCurrentInput('cos-1')" class="grid-item">
+                        <div onclick="handleCurrentInput('cos-1')" class="grid-item-tf">
                             <p class="raiseTo-item">cos<sup>-1</sup></p>
                         </div>
-                        <div onclick="handleCurrentInput('tan-1')" class="grid-item">
+                        <div onclick="handleCurrentInput('tan-1')" class="grid-item-tf">
                             <p class="raiseTo-item">tan<sup>-1</sup></p>
                         </div>
                     </div>
@@ -94,23 +101,17 @@
 
                     <div class="calculator-tf-modal-2 none">
 
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('abs-x')" class="grid-item-tf">
                             <p>|x|</p>
                         </div>
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('floor-x')" class="grid-item-tf">
                             <p>⎣x⎦</p>
                         </div>
-                        <div class="grid-item">
+                        <div onclick="handleCurrentInput('ceil-x')" class="grid-item-tf">
                             <p>⎡x⎤</p>
                         </div>
-                        <div class="grid-item">
-                            <p>rand</p>
-                        </div>
-                        <div class="grid-item">
-                            <p>dms</p>
-                        </div>
-                        <div class="grid-item">
-                            <p>deg</p>
+                        <div onclick="handleCurrentInput('rnd')" class="grid-item-tf">
+                            <p>RND</p>
                         </div>
                     </div>
                 </div>
@@ -119,118 +120,118 @@
             <!-- calculator all other functions -->
             <div class="calculator-all-fn">
                 <!-- calculator row 1 -->
-                <div id="op-second" class="grid-item">
+                <div id="op-toggle-second" class="grid-item">
                     <p>2<sup>nd</sup> </p>
                 </div>
-                <div onclick="handleCurrentInput('π')" id="op-pie" class="grid-item">
+                <div onclick="handleCurrentInput('π')" class="grid-item">
                     <p>π</p>
                 </div>
-                <div onclick="handleCurrentInput('e')" id="op-e" class="grid-item">
+                <div onclick="handleCurrentInput('e')" class="grid-item">
                     <p>e</p>
                 </div>
-                <div id="op-clear" onclick="handleCurrentInput('C')" class="grid-item">
+                <div onclick="handleCurrentInput('C')" class="grid-item">
                     <p>C</p>
                 </div>
-                <div onclick="handleCurrentInput('backspace')" id="op-back" class="grid-item">
+                <div onclick="handleCurrentInput('backspace')" class="grid-item">
                     <div class="math-icons">
                         <img src="./assests/remove-icon.png" alt="back">
                     </div>
                 </div>
                 <!-- calculator row 2 -->
-                <div onclick="handleCurrentInput('x-raise-2')" id="op-x-square" class="grid-item">
+                <div onclick="handleCurrentInput('x-raise-2')" class="grid-item toggle-item">
                     <p>x<sup>2</sup>
                     </p>
                 </div>
-                <div onclick="handleCurrentInput('one-by-x')" id="op-onebyx" class="grid-item">
+                <div onclick="handleCurrentInput('one-by-x')" class="grid-item">
                     <p>1/x</p>
                 </div>
-                <div onclick="handleCurrentInput('abs-x')" id="op-abs" class="grid-item">
+                <div onclick="handleCurrentInput('abs-x')" class="grid-item">
                     <p>|x|</p>
                 </div>
-                <div onclick="handleCurrentInput('exp')" id="op-exp" class="grid-item">
+                <div onclick="handleCurrentInput('exp')" class="grid-item">
                     <p>exp</p>
                 </div>
-                <div id="op-mod" onclick="handleCurrentInput('%')" class="grid-item">
+                <div onclick="handleCurrentInput('%')" class="grid-item">
                     <p>mod</p>
                 </div>
                 <!-- calculator row 3 -->
-                <div onclick="handleCurrentInput('2-root-x')" id="op-two-squareroot-x" class="grid-item">
+                <div onclick="handleCurrentInput('2-root-x')" class="grid-item toggle-item">
                     <p>2&radic;x</p>
                 </div>
-                <div onclick="handleCurrentInput('lp')" id="op-left-bracket" class="grid-item">
+                <div onclick="handleCurrentInput('lp')" class="grid-item">
                     <p>(</p>
                 </div>
-                <div onclick="handleCurrentInput('rp')" id="op-right-bracket" class="grid-item">
+                <div onclick="handleCurrentInput('rp')" class="grid-item">
                     <p>)</p>
                 </div>
-                <div onclick="handleCurrentInput('!')" id="id-n-!" class="grid-item">
+                <div onclick="handleCurrentInput('!')" class="grid-item">
                     <p>n!</p>
                 </div>
-                <div onclick="handleCurrentInput('/')" id="op-divide" class="grid-item">
+                <div onclick="handleCurrentInput('/')" class="grid-item">
                     <p>&divide;</p>
                 </div>
                 <!-- calculator row 4 -->
-                <div onclick="handleCurrentInput('x-raise-y')" id="op-x-y" class="grid-item">
+                <div onclick="handleCurrentInput('x-raise-y')" class="grid-item toggle-item">
                     <p>x<sup>y</sup></p>
                 </div>
-                <div onclick="handleCurrentInput('7')" id="op-seven" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('7')" class="grid-item grid-item-number">
                     <p>7</p>
                 </div>
-                <div onclick="handleCurrentInput('8')" id="op-eight" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('8')" class="grid-item grid-item-number">
                     <p>8</p>
                 </div>
-                <div onclick="handleCurrentInput('9')" id="op-nine" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('9')" class="grid-item grid-item-number">
                     <p>9</p>
                 </div>
-                <div onclick="handleCurrentInput('*')" id="op-multiply" class="grid-item ">
+                <div onclick="handleCurrentInput('*')" class="grid-item ">
                     <p>&times;</p>
                 </div>
                 <!-- calculator row 5 -->
-                <div onclick="handleCurrentInput('10-raise-x')" id="op-ten-x" class="grid-item">
+                <div onclick="handleCurrentInput('10-raise-x')" class="grid-item toggle-item">
                     <p>10<sup>x</sup></p>
                 </div>
-                <div onclick="handleCurrentInput('4')" id="op-four" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('4')" class="grid-item grid-item-number">
                     <p>4</p>
                 </div>
-                <div onclick="handleCurrentInput('5')" id="op-five" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('5')" class="grid-item grid-item-number">
                     <p>5</p>
                 </div>
-                <div onclick="handleCurrentInput('6')" id="op-six" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('6')" class="grid-item grid-item-number">
                     <p>6</p>
                 </div>
-                <div onclick="handleCurrentInput('-')" id="op-minus" class="grid-item">
+                <div onclick="handleCurrentInput('-')" class="grid-item">
                     <p>&minus;</p>
                 </div>
                 <!-- calculator row 6 -->
-                <div onclick="handleCurrentInput('log')" id="op-log" class="grid-item">
+                <div onclick="handleCurrentInput('log')" class="grid-item toggle-item">
                     <p>log</p>
                 </div>
-                <div onclick="handleCurrentInput('1')" id="op-one" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('1')" class="grid-item grid-item-number">
                     <p>1</p>
                 </div>
-                <div onclick="handleCurrentInput('2')" id="op-two" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('2')" class="grid-item grid-item-number">
                     <p>2</p>
                 </div>
-                <div onclick="handleCurrentInput('3')" id="op-three" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('3')" class="grid-item grid-item-number">
                     <p>3</p>
                 </div>
-                <div onclick="handleCurrentInput('+')" id="op-plus" class="grid-item">
+                <div onclick="handleCurrentInput('+')" class="grid-item">
                     <p>&plus;</p>
                 </div>
                 <!-- calculator row 7 -->
-                <div onclick="handleCurrentInput('ln')" id="op-logn" class="grid-item">
+                <div onclick="handleCurrentInput('ln')" class="grid-item toggle-item">
                     <p>ln</p>
                 </div>
-                <div onclick="handleCurrentInput('+/-')" id="op-plus-minus" class="grid-item grid-item-white">
+                <div onclick="handleCurrentInput('+/-')" class="grid-item grid-item-white">
                     <p>+/-</p>
                 </div>
-                <div onclick="handleCurrentInput('0')" id="op-zero" class="grid-item grid-item-number">
+                <div onclick="handleCurrentInput('0')" class="grid-item grid-item-number">
                     <p>0</p>
                 </div>
-                <div onclick="handleCurrentInput('.')" id="op-dot" class="grid-item grid-item-white">
+                <div onclick="handleCurrentInput('.')" class="grid-item grid-item-white">
                     <p>.</p>
                 </div>
-                <div onclick="handleCurrentInput('=')" id="op-equal" class="grid-item-blue">
+                <div onclick="handleCurrentInput('=')" class="grid-item-blue">
                     <p>=</p>
                 </div>
             </div>

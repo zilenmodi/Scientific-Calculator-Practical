@@ -41,7 +41,7 @@ function calculate(s) {
     for (let i = 0; i < s.length; i++) {
         if (s[i].match(/[a-z]/gi)) {
             let currentFunction = "";
-            while (s[i] !== '(') {
+            while (i < s.length && s[i] !== '(') {
                 currentFunction += s[i]
                 i++;
             }
@@ -49,49 +49,56 @@ function calculate(s) {
             if (currentFunction === "getRoot") {
                 i++;
                 let currentNumber1 = "";
-                while (s[i] !== ',') {
+                while (i < s.length && s[i] !== ',') {
                     currentNumber1 += s[i]
                     i++;
                 }
 
                 i++;
                 let currentNumber2 = "";
-                while (s[i] !== ')') {
+                while (i < s.length && s[i] !== ')') {
                     currentNumber2 += s[i]
                     i++;
                 }
-                console.log(currentNumber1, currentNumber2)
+                if (!currentNumber1.length || !currentNumber2.length || window[currentFunction] === undefined || (Number(currentNumber1) !== 3 && Number(currentNumber2) < 0)) {
+                    handleError("Invalid Input!!!");
+                    return;
+                }
+
                 currentNumber1 = window[currentFunction](Number(calculate(currentNumber1)), Number(calculate(currentNumber2)));
                 cal(stack, currentNumber1, sign);
             }
             else {
-                i++;
                 let currentNumber = "";
-                while (s[i] !== ')') {
+                while (i < s.length && s[i] !== ")") {
                     currentNumber += s[i]
                     i++;
                 }
-
+                if (!currentNumber.length || window[currentFunction] === undefined) {
+                    handleError("Invalid Input!!!");
+                    return;
+                }
                 currentNumber = window[currentFunction](Number(calculate(currentNumber)));
                 cal(stack, currentNumber, sign);
             }
-
-
         }
         else if (!isNaN(Number(s[i]))) {
             let currentNumber = "";
-            while (!isNaN(Number(s[i])) || s[i] === '.') {
+            while (i < s.length && !isNaN(Number(s[i])) || s[i] === '.') {
                 currentNumber += s[i]
                 i++;
             }
 
             i--;
+            if (!currentNumber.length) {
+                handleError("Invalid Input!!!");
+                return;
+            }
             currentNumber = Number(currentNumber);
             cal(stack, currentNumber, sign);
 
         }
         else if (s[i] === "(") {
-
             stackSignPair.push([stack, sign]);
             stack = [];
             sign = '+'

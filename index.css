@@ -13,7 +13,7 @@
 .container {
     background-color: #fff;
     height: 100vh;
-    width: 100vw;
+    /* width: 100vw; */
     display: flex;
     align-items: center;
     font-family: 'Roboto', sans-serif;
@@ -26,6 +26,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-width: 300px;
     width: 420px;
 }
 
@@ -39,13 +40,26 @@
 
 .grid-item {
     background-color: #f5f5f6;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #454545;
+    width: 100%;
+    height: 45px;
+}
+
+
+.grid-item-tf {
     padding: 12px 20px;
+    background-color: #f5f5f6;
     border-radius: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #454545;
 }
+
 
 .grid-item-white {
     background-color: #fdfdfd;
@@ -85,8 +99,9 @@
 }
 
 .grid-item-deg-fe:hover,
-.grid-item:hover {
-    background-color: #c1c1c1;
+.grid-item:hover,
+.grid-item-tf:hover {
+    background-color: #c1c1c1 !important;
 }
 
 .grid-item-muted {
@@ -128,7 +143,7 @@
     outline: none;
     text-align: right;
     width: 100%;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 input::-webkit-outer-spin-button,
@@ -197,7 +212,7 @@ input::-webkit-inner-spin-button {
 
 .calculator-tf-modal-2 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     background-color: #fff;
     padding: 6px;
@@ -215,4 +230,27 @@ input::-webkit-inner-spin-button {
 .raiseTo-item {
     display: flex;
     flex-wrap: nowrap;
+}
+
+#memory-store {
+    padding: 12px;
+    display: none;
+}
+
+#error-message-handler {
+    width: 100%;
+    text-align: center;
+}
+
+.error-msg {
+    color: rgb(247, 102, 102);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        height: unset;
+    }
 }
