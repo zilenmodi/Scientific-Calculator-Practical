@@ -46,15 +46,37 @@ function calculate(s) {
                 i++;
             }
 
-            i++;
-            let currentNumber = "";
-            while (s[i] !== ')') {
-                currentNumber += s[i]
+            if (currentFunction === "getRoot") {
                 i++;
+                let currentNumber1 = "";
+                while (s[i] !== ',') {
+                    currentNumber1 += s[i]
+                    i++;
+                }
+
+                i++;
+                let currentNumber2 = "";
+                while (s[i] !== ')') {
+                    currentNumber2 += s[i]
+                    i++;
+                }
+                console.log(currentNumber1, currentNumber2)
+                currentNumber1 = window[currentFunction](Number(calculate(currentNumber1)), Number(calculate(currentNumber2)));
+                cal(stack, currentNumber1, sign);
+            }
+            else {
+                i++;
+                let currentNumber = "";
+                while (s[i] !== ')') {
+                    currentNumber += s[i]
+                    i++;
+                }
+
+                currentNumber = window[currentFunction](Number(calculate(currentNumber)));
+                cal(stack, currentNumber, sign);
             }
 
-            currentNumber = window[currentFunction](Number(currentNumber));
-            cal(stack, currentNumber, sign);
+
         }
         else if (!isNaN(Number(s[i]))) {
             let currentNumber = "";

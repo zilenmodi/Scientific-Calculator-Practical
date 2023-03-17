@@ -180,6 +180,11 @@ function handleTrigonometryNormal(sign) {
         "*" + sign + "(" : sign + "(";
 }
 
+function handleSingleValueInput(sign) {
+    displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ?
+        "*" + sign : sign;
+}
+
 // function handleAbsolute(value) {
 //     if ((/[\d)IE]/.test(displayInput.value.slice(-1)))) {
 //         let splitArr = displayInput.value.split(/[+*\/]/);
@@ -195,13 +200,16 @@ function handleTrigonometryNormal(sign) {
 
 
 function handleXPower(power) {
-    if ((/[\d)IE]/.test(displayInput.value.slice(-1)))) {
+    if ((/[e\d)IE]/.test(displayInput.value.slice(-1)))) {
         let splitArr = displayInput.value.split(/[+\-*\/]/);
         let lastOprandDigit = splitArr.slice(-1)[0].length;
         let cutBeforeInputString = displayInput.value.slice(0, (lastOprandDigit * -1));
         displayInput.value = cutBeforeInputString + "(" + splitArr.slice(-1)[0];
         if (power === 2) {
             displayInput.value += ")^2";
+        }
+        else if (power === "e") {
+            displayInput.value += "^";
         }
         else if (power === 3) {
             displayInput.value += ")^3";
@@ -212,6 +220,13 @@ function handleXPower(power) {
     }
     else {
         console.log("Invalid operation!!!");
+    }
+}
+
+function handleXRoot(power) {
+    displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ? "*" : "";
+    if (power === 2) {
+        displayInput.value += "2√";
     }
 }
 
@@ -254,30 +269,46 @@ function factorial(number) {
     return number * factorial(number - 1);
 }
 
+function getRoot(root, value) {
+    return Math.pow(value, (1 / root));
+}
+
 function getStringInDigits() {
     let regexAndFunction = [
         {
-            regPattern: /sin\((\d+\.?\d*)\)/g,
+            regPattern: /e/g,
+            callFunction: "2.718281828"
+        },
+        {
+            regPattern: /π/g,
+            callFunction: "3.14159265359"
+        },
+        {
+            regPattern: /(\d+\.?\d*)\√(\d+\.?\d*)/g,
+            callFunction: "getRoot($1, $2)"
+        },
+        {
+            regPattern: /sin\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getSin($1)"
         },
         {
-            regPattern: /sin-1\((\d+\.?\d*)\)/g,
+            regPattern: /sin-1\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getSinIn($1)"
         },
         {
-            regPattern: /cos\((\d+\.?\d*)\)/g,
+            regPattern: /cos\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getCos($1)"
         },
         {
-            regPattern: /cos-1\((\d+\.?\d*)\)/g,
+            regPattern: /cos-1\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getCosIn($1)"
         },
         {
-            regPattern: /tan\((\d+\.?\d*)\)/g,
+            regPattern: /tan\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getTan($1)"
         },
         {
-            regPattern: /tan-1\((\d+\.?\d*)\)/g,
+            regPattern: /tan-1\((\d+[\/\.]?\d*)\)/g,
             callFunction: "getTanIn($1)"
         },
         {
@@ -292,14 +323,7 @@ function getStringInDigits() {
             regPattern: /ln\((\d+\.?\d*)\)/g,
             callFunction: "getLn($1)"
         },
-        {
-            regPattern: /e/g,
-            callFunction: "*2.718281828"
-        },
-        {
-            regPattern: /π/g,
-            callFunction: "*3.14159265359"
-        },
+
     ]
 
     let convertedString = displayInput.value;
@@ -317,6 +341,23 @@ let isDotOn = false;
 function handleCurrentInput(inputValue) {
     document.querySelector("#display-input").focus()
     switch (inputValue) {
+        case '2-root-x':
+            handleXRoot(2);
+            break;
+
+        case 'e':
+            handleSingleValueInput(inputValue);
+            break;
+
+        case 'exp':
+            handleSingleValueInput("e");
+            handleXPower("e");
+            break;
+
+        case 'π':
+            handleSingleValueInput(inputValue);
+            break;
+
         case 'abs-x':
             handleAbsolute(inputValue);
             break;
@@ -397,8 +438,9 @@ function handleCurrentInput(inputValue) {
         case '=':
             if (areBracketsBalanced(displayInput.value)) {
                 let valueInExp = getStringInDigits();
-                const newValue = calculate(valueInExp);
                 console.log(valueInExp);
+                const newValue = calculate(valueInExp);
+
                 if (newValue === undefined || isNaN(newValue)) {
                     handleCurrentInput('C')
                     console.log("Invalid Input");
