@@ -151,9 +151,9 @@ function calculate(s) {
                 minusOn = 1;
             }
         }
-
-        // Calculate the final result by reducing the stack and returning the sum.
-        let acc = stack.reduce((acc, curr) => acc += curr, 0)
-        return acc;
     }
+
+    // Calculate the final result by reducing the stack and returning the sum.
+    let acc = stack.reduce((acc, curr) => acc += curr, 0)
+    return acc;
 };

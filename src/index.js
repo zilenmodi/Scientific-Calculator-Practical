@@ -691,7 +691,7 @@ function handleCurrentInput(inputValue) {
             if (areBracketsBalanced(displayInput.value)) {
                 // Get the string in digits from the display input
                 let valueInExp = getStringInDigits();
-                console.log(valueInExp);
+                // console.log(valueInExp);
                 // Calculate the result of the expression
                 const newValue = calculate(valueInExp);
                 // If the calculated value is undefined or NaN, show an error message
