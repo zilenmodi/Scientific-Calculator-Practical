@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.container {
+    background-color: #fff;
+    height: 100vh;
+    /* width: 100vw; */
+    display: flex;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.calculator-main {
+    background-color: #e9ecef;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 300px;
+    width: 420px;
+}
+
+.calculator-all-fn {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 6px;
+    text-align: center;
+}
+
+.grid-item {
+    background-color: #f5f5f6;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #454545;
+    width: 100%;
+    height: 45px;
+}
+
+
+.grid-item-tf {
+    padding: 12px 20px;
+    background-color: #f5f5f6;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #454545;
+}
+
+
+.grid-item-white {
+    background-color: #fdfdfd;
+}
+
+.grid-item-number {
+    font-weight: 500;
+    background-color: #fdfdfd;
+}
+
+.grid-item-blue {
+    background-color: #92c2e8;
+    padding: 12px 20px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #454545;
+}
+
+.calculator-deg-fe {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 6px;
+    text-align: center;
+}
+
+.grid-item-deg-fe {
+    background-color: transparent;
+    padding: 12px 20px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+}
+
+.grid-item-deg-fe:hover,
+.grid-item:hover,
+.grid-item-tf:hover {
+    background-color: #c1c1c1 !important;
+}
+
+.grid-item-muted {
+    color: #c3c3c3;
+    padding: 12px 20px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+}
+
+#op-mc {
+    grid-row: 2/-1;
+
+}
+
+#op-mr {
+    grid-row: 2/-1;
+}
+
+#op-mplus {
+    grid-row: 2/-1;
+}
+
+#op-mminus {
+    grid-row: 2/-1;
+}
+
+#op-ms {
+    grid-row: 2/-1;
+}
+
+#display-input {
+    padding: 10px;
+    font-size: 42px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: right;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    display: none;
+}
+
+
+.math-icons {
+    height: 16px;
+    width: 16px;
+
+}
+
+.math-icons-downarrow {
+    height: 10px;
+    width: 10px;
+}
+
+.math-icons>img {
+    height: 100%;
+    width: 100%;
+}
+
+.math-icons-downarrow>img {
+    height: 100%;
+    width: 100%;
+}
+
+.math-icons-triangle>img {
+    transform: rotate(270deg);
+
+}
+
+.calculator-tf-trigonometry {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.calculator-tf-trigonometry:hover {
+    background-color: #c1c1c1;
+}
+
+.calculator-tf {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.calculator-tf-modal-1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    background-color: #fff;
+    padding: 6px;
+    position: absolute;
+    bottom: -106px;
+    left: 0;
+    border-radius: 2px;
+    /* display: none; */
+}
+
+
+.calculator-tf-modal-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    background-color: #fff;
+    padding: 6px;
+    position: absolute;
+    bottom: -106px;
+    border-radius: 2px;
+    left: 0;
+    /* display: none; */
+}
+
+.none {
+    display: none;
+}
+
+.raiseTo-item {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#memory-store {
+    padding: 12px;
+    display: none;
+}
+
+#error-message-handler {
+    width: 100%;
+    text-align: center;
+}
+
+.error-msg {
+    color: rgb(247, 102, 102);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        height: unset;
+    }
+}
