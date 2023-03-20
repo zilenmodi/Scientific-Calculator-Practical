@@ -15,6 +15,7 @@ const dropdownModalTriangle = document.querySelector(".calculator-tf-modal-1")
 
 const dropdownModalFunction = document.querySelector(".calculator-tf-modal-2")
 
+//dropdownTriangle: click event is used to open dropdown menu for trigonometry.
 dropdownTriangle.addEventListener("click", (e) => {
     dropdownModalTriangle.classList.contains('none') ? dropdownModalTriangle.classList.remove('none') : dropdownModalTriangle.classList.add('none')
 
@@ -23,7 +24,7 @@ dropdownTriangle.addEventListener("click", (e) => {
     }
 }, true)
 
-
+//dropdownFunction: click event is used to open dropdown menu for functions.
 dropdownFunction.addEventListener("click", () => {
     dropdownModalFunction.classList.contains('none') ? dropdownModalFunction.classList.remove('none') : dropdownModalFunction.classList.add('none')
 
@@ -32,6 +33,7 @@ dropdownFunction.addEventListener("click", () => {
     }
 })
 
+//degButton: click event is used for toggle DEG and RAD.
 const degButton = document.querySelector("#op-deg");
 degButton.addEventListener("click", () => {
     isDegOn = !isDegOn;
@@ -48,6 +50,7 @@ degButton.addEventListener("click", () => {
     }
 })
 
+//toggleButtonSecond: click event is used for toggle functions like x^2 => x^3, log(x) => log2(x)
 const toggleButtonSecond = document.querySelector("#op-toggle-second");
 toggleButtonSecond.addEventListener("click", () => {
     toggleButtonSecondOn = !toggleButtonSecondOn;
@@ -97,6 +100,7 @@ toggleButtonSecond.addEventListener("click", () => {
 
 })
 
+//handleError function is used to handle errors in calculator like: "invalid input"
 const errorMessageHandler = document.querySelector("#error-message-handler");
 function handleError(message) {
     errorMessageHandler.innerHTML = `<p class='error-msg'>${message}</p>`
@@ -105,6 +109,7 @@ function handleError(message) {
     }, 1000)
 }
 
+//notInRange is used to check value is in range or not
 function notInRange(value) {
     if (value >= '1' && value <= '9') {
         return false;
@@ -112,6 +117,7 @@ function notInRange(value) {
     return true;
 }
 
+//handlePlusAndMinus function is used to handle +/- event. When user click on this, it will toggle value to plus to minus and vice versa.
 function handlePlusAndMinus(inputValue) {
     let currentDisplayInput = displayInput.value;
     if (currentDisplayInput.length == 0) {
@@ -149,6 +155,7 @@ function handlePlusAndMinus(inputValue) {
     }
 }
 
+//handleDisplayOutput function is used to handle display output: +int, -int, +frac, -frac.
 function handleDisplayOutput(value) {
     if (value > 0 && !(value % 1)) {
         isDotOn = false;
@@ -186,6 +193,7 @@ function handleDisplayOutput(value) {
     }
 }
 
+
 function handleDefaultCaseOfOperator(inputValue) {
     let currentDisplayLength = displayInput.value.length;
     let condition1 = (!currentDisplayLength && inputValue.match(/[+|*|\/|%]/g));
@@ -197,15 +205,18 @@ function handleDefaultCaseOfOperator(inputValue) {
         // console.log("Do Nothing!!");
     }
     else if (lastIsOperator && inputValue === '-') {
+        //last is op, and current is (-), So simply add it.
         displayInput.value += "-"
 
     }
     else if (lastIsOperator && inputValue.match(/[+|*|\/|%]/g)) {
+        //last is op, and current is (+,*,/,%), change with current.
         let currentValue = displayInput.value.slice(0, currentDisplayLength - 1);
         displayInput.value = currentValue + inputValue
 
     }
     else if ((currentDisplayLength && displayInput.value[currentDisplayLength - 1] === '(' && inputValue === ".") || (!currentDisplayLength && inputValue === '.') || (lastIsOperator && inputValue === '.')) {
+        //once dot op is came, then dot can't came again until next operator.
         if (!isDotOn) {
             displayInput.value += '0.'
         }
@@ -238,6 +249,7 @@ function handleDefaultCaseOfOperator(inputValue) {
     }
 }
 
+//handleBackSpace function is used when user click on backspace to handle dots and other operators.
 function handleBackSpace() {
     if (displayInput.value.length === 0) {
         return;
@@ -252,15 +264,18 @@ function handleBackSpace() {
     document.querySelector("#display-input").focus()
 }
 
+//handleTrigonometryNormal function is used to check last is operator or not, If last is operand,So add "*(" sign otherwise "(".
 function handleTrigonometryNormal(sign) {
     displayInput.value += (/[!\d)IE]/.test(displayInput.value.slice(-1))) ?
         "*" + sign + "(" : sign + "(";
 }
 
+//handleSingleValueInput function is used to check last is operator or not, If last is operand,So add "*sign" sign otherwise "sign".
 function handleSingleValueInput(sign) {
     displayInput.value += (/[eπ\d)IE]/.test(displayInput.value.slice(-1))) ? "*" + sign : sign;
 }
 
+//handleXPower is used to handle, (x)^2, (x)^3 ,(10)^x ,(2)^x and (x)^y
 function handleXPower(power) {
     if ((/[e\d)IE]/.test(displayInput.value.slice(-1)))) {
         let splitArr = displayInput.value.split(/[+\-*\/]/);
@@ -285,6 +300,7 @@ function handleXPower(power) {
     }
 }
 
+//handleXRoot is used to handle, 2root(x), 3root(x) and yroot(x)
 function handleXRoot(power) {
     lastIsOperator = true;
     displayInput.value += (/[\d)IE]/.test(displayInput.value.slice(-1))) ? "*" : "";
@@ -296,6 +312,7 @@ function handleXRoot(power) {
     }
 }
 
+//handle memory functions like MS, M+, M-, MC, MR
 function handleMemoryStore(value) {
     memoryValue = value;
     if (memoryValue !== 0) {
@@ -382,59 +399,60 @@ function handleFactorial() {
     }
 }
 
+// Define an array of objects containing regular expressions and their corresponding function calls
 function getStringInDigits() {
     let regexAndFunction = [
         {
-            regPattern: /e/g,
-            callFunction: "2.718281828"
+            regPattern: /e/g, // Regular expression to match 'e'
+            callFunction: "2.718281828" // Call this string as a replacement
         },
         {
-            regPattern: /π/g,
-            callFunction: "3.14159265359"
+            regPattern: /π/g, // Regular expression to match 'π'
+            callFunction: "3.14159265359" // Call this string as a replacement
         },
         {
-            regPattern: /(\d+\.?\d*)\√(\-?\d+\.?\d*)/g,
-            callFunction: "getRoot($1, $2)"
+            regPattern: /(\d+\.?\d*)\√(\-?\d+\.?\d*)/g, // Regular expression to match a square root expression
+            callFunction: "getRoot($1, $2)" // Call the getRoot() function with the matched numbers as arguments
         },
         {
-            regPattern: /sin\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getSin($1)"
+            regPattern: /sin\((\d+[\/\.]?\d*)\)/g, // Regular expression to match a sine expression
+            callFunction: "getSin($1)" // Call the getSin() function with the matched number as an argument
         },
         {
-            regPattern: /sin-1\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getSinIn($1)"
+            regPattern: /sin-1\((\d+[\/\.]?\d*)\)/g, // Regular expression to match an inverse sine expression
+            callFunction: "getSinIn($1)" // Call the getSinIn() function with the matched number as an argument
         },
         {
-            regPattern: /cos\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getCos($1)"
+            regPattern: /cos\((\d+[\/\.]?\d*)\)/g, // Regular expression to match a cosine expression
+            callFunction: "getCos($1)" // Call the getCos() function with the matched number as an argument
         },
         {
-            regPattern: /cos-1\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getCosIn($1)"
+            regPattern: /cos-1\((\d+[\/\.]?\d*)\)/g, // Regular expression to match an inverse cosine expression
+            callFunction: "getCosIn($1)" // Call the getCosIn() function with the matched number as an argument
         },
         {
-            regPattern: /tan\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getTan($1)"
+            regPattern: /tan\((\d+[\/\.]?\d*)\)/g, // Regular expression to match a tangent expression
+            callFunction: "getTan($1)" // Call the getTan() function with the matched number as an argument
         },
         {
-            regPattern: /tan-1\((\d+[\/\.]?\d*)\)/g,
-            callFunction: "getTanIn($1)"
+            regPattern: /tan-1\((\d+[\/\.]?\d*)\)/g, // Regular expression to match an inverse tangent expression
+            callFunction: "getTanIn($1)" // Call the getTanIn() function with the matched number as an argument
         },
         {
-            regPattern: /(\d+\.?\d*)\!/g,
-            callFunction: "factorial($1)"
+            regPattern: /(\d+\.?\d*)\!/g, // Regular expression to match a factorial expression
+            callFunction: "factorial($1)" // Call the factorial() function with the matched number as an argument
         },
         {
-            regPattern: /log\((\d+\.?\d*)\)/g,
-            callFunction: "getLog($1)"
+            regPattern: /log\((\d+\.?\d*)\)/g, // Regular expression to match a base-10 logarithm expression
+            callFunction: "getLog($1)" // Call the getLog() function with the matched number as an argument
         },
         {
-            regPattern: /log2\((\d+\.?\d*)\)/g,
-            callFunction: "getLog2($1)"
+            regPattern: /log2\((\d+\.?\d*)\)/g, // Regular expression to match a base-2 logarithm expression
+            callFunction: "getLog2($1)" // Call the getLog2() function with the matched number as an argument
         },
         {
-            regPattern: /ln\((\d+\.?\d*)\)/g,
-            callFunction: "getLn($1)"
+            regPattern: /ln\((\d+\.?\d*)\)/g, // Regular expression to match a ln  expression
+            callFunction: "getLn($1)"  // Call the getLn() function with the matched number as an argument
         },
 
     ]
@@ -448,87 +466,114 @@ function getStringInDigits() {
     return convertedString;
 }
 
-
 function handleCurrentInput(inputValue) {
+    // Set focus on the display input
     document.querySelector("#display-input").focus()
+
+    // Switch statement to handle various input values
     switch (inputValue) {
+
+        // Memory store functions
         case 'm-s':
+            // Call handleCurrentInput with "=" to evaluate the current input
             handleCurrentInput("=");
+            // Convert display input to a number and store it in memory
             displayInput.value = Number(displayInput.value);
             handleMemoryStore(Number(displayInput.value));
             break;
 
         case 'm-plus':
+            // Call handleCurrentInput with "=" to evaluate the current input
             handleCurrentInput("=");
+            // Convert display input to a number and add it to the value in memory
             displayInput.value = Number(displayInput.value);
             handleMemoryStore(Number(memoryValue) + Number(displayInput.value));
             break;
 
         case 'm-minus':
+            // Call handleCurrentInput with "=" to evaluate the current input
             handleCurrentInput("=");
+            // Convert display input to a number and subtract it from the value in memory
             displayInput.value = Number(displayInput.value);
             handleMemoryStore(Number(memoryValue) - Number(displayInput.value));
             break;
 
         case 'm-recall':
+            // Display the value stored in memory
             displayInput.value = memoryValue
             break;
 
         case 'm-clear':
+            // Clear the value in memory
             handleMemoryStore(0);
             break;
 
+        // Exponential functions
         case 'f-e':
+            // Call handleCurrentInput with "=" to evaluate the current input
             handleCurrentInput("=");
+            // Convert display input to a number and display it in exponential notation with 2 decimal places
             displayInput.value = Number(displayInput.value).toExponential(2)
             break;
 
         case '2-root-x':
+            // Calculate the square root of the current input value
             handleXRoot(2);
             break;
 
         case '3-root-x':
+            // Calculate the cube root of the current input value
             handleXRoot(3);
             break;
 
         case 'y-root-x':
+            // Add the square root symbol to the display input
             displayInput.value += '√'
             break;
 
         case 'e':
+            // Handle input of the constant e
             handleSingleValueInput(inputValue);
             break;
 
         case 'exp':
+            // Handle exponential function with base e
             handleSingleValueInput("e");
             handleXPower("e");
             break;
 
         case 'e-raise-x':
+            // Handle e to the power of x
             handleSingleValueInput("e");
             handleXPower("e");
             break;
 
         case 'π':
+            // Handle input of the constant pi
             handleSingleValueInput(inputValue);
             break;
 
         case 'rnd':
+            // Generate a random number and display it with 8 decimal places
             let rndValue = Math.random();
             handleSingleValueInput(rndValue.toFixed(8).toString());
             break;
 
+        // Math functions
         case 'abs-x':
+            // Calculate the absolute value of the current input value
             handleCurrentInput("=");
             displayInput.value = Math.abs(Number(displayInput.value))
             break;
 
         case 'floor-x':
+            // Calculate the floor of the current input value
             handleCurrentInput("=");
             displayInput.value = Math.floor(Number(displayInput.value))
             break;
 
         case 'ceil-x':
+            // Calculate the ceiling of the current input value
             handleCurrentInput("=");
             displayInput.value = Math.ceil(Number(displayInput.value))
             break;
@@ -543,76 +588,94 @@ function handleCurrentInput(inputValue) {
             break;
 
         case 'log':
+            // Handle logarithm with base 10
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'log-x-base2':
+            // Handle logarithm with base 2
             handleTrigonometryNormal("log2");
             break;
 
         case 'ln':
+            // Handle natural logarithm
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'backspace':
+            // Handle backspace key
             handleBackSpace();
             break;
 
         case 'sin':
+            // Handle sine function
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'cos':
+            // Handle cosine function
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'tan':
+            // Handle tangent function
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'sin-1':
+            // Handle inverse sine function
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'cos-1':
+            // Handle inverse cosine function
             handleTrigonometryNormal(inputValue);
             break;
 
         case 'tan-1':
+            // Handle inverse tangent function
             handleTrigonometryNormal(inputValue);
             break;
 
         case '!':
+            // Handle factorial operator
             handleFactorial();
             break;
 
         case 'x-raise-2':
+            // Handle x raised to power 2
             handleXPower(2);
             break;
 
         case 'x-raise-3':
+            // Handle x raised to power 3
             handleXPower(3);
             break;
 
         case 'x-raise-y':
+            // Handle custom x raised to y power
             handleXPower();
             break;
 
         case '10-raise-x':
+            // Append 10 to the display input and handle custom x raised to y power
             displayInput.value += "10";
             handleXPower();
             break;
 
         case '2-raise-x':
+            // Append 2 to the display input and handle custom x raised to y power
             displayInput.value += "2";
             handleXPower();
             break;
 
         case '+/-':
+            // Handle plus/minus operator
             handlePlusAndMinus(inputValue)
             break;
 
         case 'C':
+            // Clear the display input and reset all flags to their default values
             displayInput.value = "";
             minusOn = 1;
             toggleButtonSecondOn = false;
@@ -620,68 +683,80 @@ function handleCurrentInput(inputValue) {
             lastIsOperator = false;
             isDotOn = false;
             document.querySelector("#display-input").focus()
-            break
+            break;
+
 
         case '=':
+            // Check if brackets are balanced in the expression
             if (areBracketsBalanced(displayInput.value)) {
+                // Get the string in digits from the display input
                 let valueInExp = getStringInDigits();
-                // console.log(valueInExp);
+                console.log(valueInExp);
+                // Calculate the result of the expression
                 const newValue = calculate(valueInExp);
+                // If the calculated value is undefined or NaN, show an error message
                 if (newValue === undefined || isNaN(newValue)) {
                     handleError("Invalid Input!!!")
                 }
+                // If the calculated value is zero, clear the display input
                 else {
                     if (newValue === 0) {
                         displayInput.value = "";
                     }
+                    // Otherwise, update the display input with the calculated value
                     else {
                         displayInput.value = handleDisplayOutput(newValue)
                     }
+                    // Set the focus back to the display input and update the state of the calculator
                     document.querySelector("#display-input").focus()
                     minusOn = 1;
                 }
             }
+            // If the brackets are not balanced, show an error message
             else {
-                // handleCurrentInput('C')
                 handleError("Invalid Parentheses!!!")
             }
             break
 
         case 'lp':
+            // Handle the input of a left parenthesis
             handleSingleValueInput('(');
             break
 
         case 'rp':
+            // Add a right parenthesis to the display input
             displayInput.value += ')'
             break
 
         default:
+            // Handle the default case for an operator input
             handleDefaultCaseOfOperator(inputValue)
             break;
     }
 }
 
+// Add an event listener to the document that listens for key presses
 document.addEventListener("keypress", function (event) {
-    if (event.key.match(/[a-z]/gi)) {
-        event.preventDefault();
-        handleError("Invalid Input!!!")
-    }
-    else if (event.key === "Enter") {
-        event.preventDefault();
+    // Prevent the default behavior of the keypress event (e.g., prevent the Enter key from submitting a form)
+    event.preventDefault();
+    // Check if the key pressed is the Enter key
+    if (event.key === "Enter") {
+        // If so, call the handleCurrentInput function with an argument of "="
         handleCurrentInput("=")
     }
+    // Check if the key pressed is the Backspace key
     else if (event.key === "Backspace") {
-        event.preventDefault();
+        // If so, call the handleCurrentInput function with an argument of "backspace"
         handleCurrentInput("backspace")
     }
+    // Check if the key pressed is a letter (a-z or A-Z)
+    else if (event.key.match(/[a-z]/gi)) {
+        // If so, call the handleError function with an argument of "Invalid Input!!!"
+        handleError("Invalid Input!!!")
+    }
+    // If none of the above conditions are met, the key pressed must be a number or operator
     else {
-        event.preventDefault();
+        // Call the handleCurrentInput function with an argument of the key pressed
         handleCurrentInput(event.key)
     }
 });
-
-
-/*
-We required your digital signature for our college report. As you may know, a digital signature is required for presenting the report to college, and We would be grateful if you could provide us with one.
-
-*/
