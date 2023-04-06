@@ -124,11 +124,11 @@ function handlePlusAndMinus(inputValue) {
         inputValue = '-'
         displayInput.value += inputValue
     }
-    else if (currentDisplayInput.length && currentDisplayInput.charAt(currentDisplayInput.length - 1) >= '1' && currentDisplayInput.charAt(currentDisplayInput.length - 1) <= '9') {
+    else if (currentDisplayInput.length && currentDisplayInput.charAt(currentDisplayInput.length - 1) >= '0' && currentDisplayInput.charAt(currentDisplayInput.length - 1) <= '9') {
         let countChar = 0;
         let i = currentDisplayInput.length - 1
         for (; i >= 0; i--) {
-            if ((currentDisplayInput[i] >= '1' && currentDisplayInput[i] <= '9') || currentDisplayInput[i] === '.') {
+            if ((currentDisplayInput[i] >= '0' && currentDisplayInput[i] <= '9') || currentDisplayInput[i] === '.') {
                 countChar++;
             }
             else {
